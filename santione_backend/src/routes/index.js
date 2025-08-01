@@ -2,34 +2,19 @@ const express = require('express');
 const healthController = require('../controllers/health');
 
 const router = express.Router();
-// Health endpoint
 
-/**
- * @swagger
- * /:
- *   get:
- *     summary: Health endpoint
- *     responses:
- *       200:
- *         description: Service health check passed
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: string
- *                   example: ok
- *                 message:
- *                   type: string
- *                   example: Service is healthy
- *                 timestamp:
- *                   type: string
- *                   format: date-time
- *                 environment:
- *                   type: string
- *                   example: development
- */
+// Health endpoint (root)
 router.get('/', healthController.check.bind(healthController));
+
+// Main API endpoints
+router.use('/auth', require('./auth'));
+router.use('/properties', require('./property'));
+router.use('/bookings', require('./booking'));
+router.use('/guests', require('./guest'));
+router.use('/staff', require('./staff'));
+router.use('/dashboard', require('./dashboard'));
+router.use('/notifications', require('./notification'));
+
+// TODO: Plug in more entities (tasks, smartlock, revenue, parking, contract, report, etc.)
 
 module.exports = router;
